@@ -172,7 +172,6 @@ class AMNTDDA(nn.Module):
             global_context_vector = self.global_context_readout(homo_base_hg, context_features).squeeze(0)
         else:
             global_context_vector = torch.zeros(self.context_dim, device=self.device)
-
         g_a = metapath_subgraphs['A_d_p_di'].to(self.device)
         features_for_a = {'drug': drug_feat_proj, 'disease': disease_feat_proj}
         view_a_out = self.hgt_layer_A(g_a, features_for_a, global_context_vector)
@@ -199,7 +198,6 @@ class AMNTDDA(nn.Module):
         di_hgt = self.view_aggregator_disease(di_views)
         if di_hgt is None:
             di_hgt = torch.zeros(self.args.disease_number, hgt_out_dim).to(self.device)
-
         dr_hgt_projected = self.project_hgt_drug_to_fusion(dr_hgt)
         di_hgt_projected = self.project_hgt_disease_to_fusion(di_hgt)       
         dr_stacked = torch.stack((dr_sim, dr_hgt_projected), dim=1)
@@ -221,9 +219,9 @@ class AMNTDDA(nn.Module):
             selected_dr_rep = dr_final_rep[dr_indices]
             selected_di_rep = di_final_rep[di_indices]
             drdi_embedding = torch.mul(selected_dr_rep, selected_di_rep)
-            output_logits = self.mlp(drdi_embedding)
-            
+            output_logits = self.mlp(drdi_embedding)           
         if return_intermediate_features:
              return dr_final_rep, di_final_rep, dr_sim, di_sim, dr_hgt, di_hgt, output_logits
         else:
+
              return dr_final_rep, di_final_rep, output_logits
