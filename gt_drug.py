@@ -54,6 +54,5 @@ class GraphTransformer(nn.Module):
         last_layer_h = current_h
         # 将最后一层的表示投影到最终维度
         final_h = self.final_projection(last_layer_h)
-        
-
         return final_h
+
