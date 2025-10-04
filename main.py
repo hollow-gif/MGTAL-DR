@@ -128,7 +128,6 @@ def calculate_agas_loss(h_orig, h_adv, lambda_align, lambda_sep, m_align, margin
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    # --- 参数定义部分 (保持不变) ---
     parser.add_argument('--k_fold', type=int, default=10)
     parser.add_argument('--epochs', type=int, default=400)
     parser.add_argument('--k_rank', type=int, default=32, help="Dimension of the low-rank space for disentanglement.")
@@ -234,8 +233,7 @@ if __name__ == "__main__":
             X_train = torch.LongTensor(fold_data['X_train']).to(device)
             Y_train = torch.LongTensor(fold_data['Y_train']).flatten().to(device)
             X_test = torch.LongTensor(fold_data['X_test']).to(device)
-            Y_test_labels_np = torch.LongTensor(fold_data['Y_test']).flatten().cpu().numpy()
-            
+            Y_test_labels_np = torch.LongTensor(fold_data['Y_test']).flatten().cpu().numpy()    
             model.train()
             optimizer.zero_grad()
             with torch.no_grad():
@@ -294,7 +292,6 @@ if __name__ == "__main__":
             epoch_agas_loss = total_agas_loss_value.item()
             epoch_align_loss = align_loss_value.item()
             epoch_sep_loss = sep_loss_value.item()
-
             model.eval()
             with torch.no_grad():
                 _, _, test_score_logits = model(
@@ -321,10 +318,8 @@ if __name__ == "__main__":
                 best_auc_fold = AUC
                 best_aupr_fold = AUPR
                 best_epoch_fold = epoch + 1
-
         AUCs.append(best_auc_fold)
         AUPRs.append(best_aupr_fold)
-
         print(f"--- Fold {i_fold} Finished --- Best AUC: {best_auc_fold:.5f} at Epoch {best_epoch_fold}, Best AUPR: {best_aupr_fold:.5f} ---")
 
     print("\n\n" + "="*50)
@@ -346,3 +341,4 @@ if __name__ == "__main__":
     total_run_time = timeit.default_timer() - start_time_total
     print(f"\nTotal Execution Time: {total_run_time:.2f} seconds")
     print("="*50)
+
