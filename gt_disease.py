@@ -16,8 +16,7 @@ class GraphTransformer(nn.Module):
         for _ in range(n_layers):
             self.layers.append(GraphTransformerLayer(hidden_dim, hidden_dim, 
                                                      n_heads, dropout, 
-                                                     layer_norm=True, batch_norm=False, residual=True).to(device))
-            
+                                                     layer_norm=True, batch_norm=False, residual=True).to(device))     
         self.final_projection = nn.Linear(hidden_dim, out_dim).to(device)
     def get_intermediate_h(self, g):       
         g = g.to(self.device)
@@ -54,3 +53,4 @@ class GraphTransformer(nn.Module):
         # 将最后一层的表示投影到最终维度
         final_h = self.final_projection(last_layer_h)
         return final_h
+
