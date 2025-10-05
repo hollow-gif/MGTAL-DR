@@ -192,7 +192,6 @@ if __name__ == "__main__":
     cross_entropy = nn.CrossEntropyLoss()
     AUCs, AUPRs = [], []
     Metric_Header = ('Fold\tEpoch\tTime\tL(T)\tL(A)\tL(AGAS)\tL(Algn)\tL(Sep)\tAUC\tAUPR\tAcc\tPrec\tRecall\tF1\tMCC')
-
     for i_fold in range(args.k_fold):
         print(f"\n---Fold: {i_fold}---")
         model = AMNTDDA(args, device=device)
@@ -211,7 +210,6 @@ if __name__ == "__main__":
         base_hg, _ = dgl_heterograph(all_data_dict, training_positives_for_graph, args)
         args.num_hgt_canonical_etypes = len(base_hg.canonical_etypes) if base_hg.num_edges() > 0 else 1
         metapath_subgraphs = generate_metapath_subgraphs(base_hg)
-
         for epoch in range(args.epochs):
             model.eval()
             with torch.no_grad():
@@ -297,15 +295,11 @@ if __name__ == "__main__":
                 _, _, test_score_logits = model(
                     drdr_graph, didi_graph, base_hg, metapath_subgraphs, drug_feature_hgt_raw_tensor,
                     disease_feature_hgt_raw_tensor, protein_feature_hgt_raw_tensor, X_test, return_intermediate_features=False, use_provided_features=False)
-
             test_score_pred_np = torch.argmax(test_score_logits, dim=-1).cpu().numpy() if test_score_logits.numel() > 0 else np.array([])
             test_prob_np = F.softmax(test_score_logits, dim=-1)[:, 1].cpu().numpy() if test_score_logits.numel() > 0 else np.array([])
-
             AUC, AUPR, accuracy, precision_val, recall_val, f1, mcc = 0.0,0.0,0.0,0.0,0.0,0.0,0.0
-
             if Y_test_labels_np.size > 0 and test_score_pred_np.size > 0 and test_prob_np.size > 0 and len(np.unique(Y_test_labels_np)) > 1 :
                  AUC, AUPR, accuracy, precision_val, recall_val, f1, mcc = get_metric(Y_test_labels_np, test_score_pred_np, test_prob_np)
-
             current_loop_time = timeit.default_timer() - fold_start_time
             show_metrics = [ i_fold, epoch + 1, f"{current_loop_time:.2f}",
                              f"{epoch_task_loss:.4f}", f"{epoch_adv_loss:.4f}",
@@ -313,7 +307,6 @@ if __name__ == "__main__":
                              f"{AUC:.5f}", f"{AUPR:.5f}", f"{accuracy:.5f}",
                              f"{precision_val:.5f}", f"{recall_val:.5f}", f"{f1:.5f}", f"{mcc:.5f}" ]
             print('\t'.join(map(str, show_metrics)))
-
             if AUC > best_auc_fold and len(np.unique(Y_test_labels_np)) > 1:
                 best_auc_fold = AUC
                 best_aupr_fold = AUPR
@@ -321,7 +314,6 @@ if __name__ == "__main__":
         AUCs.append(best_auc_fold)
         AUPRs.append(best_aupr_fold)
         print(f"--- Fold {i_fold} Finished --- Best AUC: {best_auc_fold:.5f} at Epoch {best_epoch_fold}, Best AUPR: {best_aupr_fold:.5f} ---")
-
     print("\n\n" + "="*50)
     print(" " * 12 + "FINAL K-FOLD CROSS-VALIDATION RESULTS")
     print("="*50)
@@ -341,4 +333,5 @@ if __name__ == "__main__":
     total_run_time = timeit.default_timer() - start_time_total
     print(f"\nTotal Execution Time: {total_run_time:.2f} seconds")
     print("="*50)
+
 
