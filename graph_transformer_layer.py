@@ -72,17 +72,14 @@ class GraphTransformerLayer(nn.Module):
             nn.Linear(max(16, len(scales) * 4), len(scales))
         )
         self.linear_O = nn.Linear(out_dim, out_dim, bias=False)
-
         if self.layer_norm:
             self.layer_norm1 = nn.LayerNorm(out_dim)
             self.layer_norm2 = nn.LayerNorm(out_dim)
         if self.batch_norm:
             self.batch_norm1 = nn.BatchNorm1d(out_dim)
             self.batch_norm2 = nn.BatchNorm1d(out_dim)
-
         self.FFN_layer1 = nn.Linear(out_dim, out_dim * 2)
         self.FFN_layer2 = nn.Linear(out_dim * 2, out_dim)
-        
         if in_dim != out_dim and residual:
             self.residual_proj1 = nn.Linear(in_dim, out_dim, bias=False)
         else:
@@ -146,3 +143,4 @@ class GraphTransformerLayer(nn.Module):
     def __repr__(self):
         return '{}(in_channels={}, out_channels={}, heads={}, residual={})'.format(
             self.__class__.__name__, self.in_channels, self.out_channels, self.num_heads, self.residual)
+
