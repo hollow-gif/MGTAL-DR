@@ -138,7 +138,7 @@ if __name__ == "__main__":
     parser.add_argument('--neighbor', type=int, default=20)
     parser.add_argument('--negative_rate', type=float, default=1.0)
     parser.add_argument('--hard_ratio', type=float, default=0.8, help="Ratio of hard negatives in dynamic sampling")
-    parser.add_argument('--dataset', default='F-dataset')
+    parser.add_argument('--dataset', default='C-dataset')
     parser.add_argument('--dropout', default=0.2, type=float)
     parser.add_argument('--gt_layer', default=2, type=int)
     parser.add_argument('--gt_head', default=4, type=int)
@@ -330,6 +330,7 @@ if __name__ == "__main__":
     total_run_time = timeit.default_timer() - start_time_total
     print(f"\nTotal Execution Time: {total_run_time:.2f} seconds")
     print("="*50)
+
 
 
 
