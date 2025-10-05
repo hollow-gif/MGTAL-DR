@@ -216,8 +216,7 @@ if __name__ == "__main__":
                 all_drug_rep, all_disease_rep, _ = model(
                     drdr_graph, didi_graph, base_hg, metapath_subgraphs,
                     drug_feature_hgt_raw_tensor, disease_feature_hgt_raw_tensor, protein_feature_hgt_raw_tensor,
-                    sample=None
-                )
+                    sample=None)
             if epoch == 0:
                 num_neg_to_sample = int(args.negative_rate * len(all_data_dict['positive_samples']))
                 neg_pool_indices = np.random.choice(len(all_data_dict['negative_pool']), num_neg_to_sample, replace=False)
@@ -225,8 +224,7 @@ if __name__ == "__main__":
             else:
                 current_sampled_negatives = dynamic_negative_sampling_disentangled(
                     model, all_drug_rep, all_disease_rep,
-                    all_data_dict['positive_samples'], all_data_dict['negative_pool'], args
-                )
+                    all_data_dict['positive_samples'], all_data_dict['negative_pool'], args)
             fold_data = k_fold(all_data_dict, args, i_fold, current_sampled_negatives)
             X_train = torch.LongTensor(fold_data['X_train']).to(device)
             Y_train = torch.LongTensor(fold_data['Y_train']).flatten().to(device)
@@ -251,8 +249,7 @@ if __name__ == "__main__":
                 X_train, return_intermediate_features=True, use_provided_features=True,
                 provided_gt_drug_h_intermediate=h_drug_gt_intermediate_orig_rg,
                 provided_gt_disease_h_intermediate=h_disease_gt_intermediate_orig_rg,
-                provided_hgt_input_features=hgt_input_features_orig_rg
-            )
+                provided_hgt_input_features=hgt_input_features_orig_rg)
             if temp_train_score.numel() > 0 :
                 loss_for_grad = cross_entropy(temp_train_score, Y_train)
                 loss_for_grad.backward()
@@ -333,5 +330,6 @@ if __name__ == "__main__":
     total_run_time = timeit.default_timer() - start_time_total
     print(f"\nTotal Execution Time: {total_run_time:.2f} seconds")
     print("="*50)
+
 
 
