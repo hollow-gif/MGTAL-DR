@@ -39,7 +39,6 @@ class GraphTransformer(nn.Module):
             h = self.linear_h(h_in)
         else:
             h = h_intermediate.to(self.device)
-        # 处理对抗性扰动
         h_after_perturb = h 
         if self.node_perturb is not None :
             perturb_gpu = self.node_perturb.to(h.device)
@@ -48,9 +47,6 @@ class GraphTransformer(nn.Module):
         current_h = h_after_perturb    
         for layer in self.layers:
             current_h = layer(g, current_h)          
-        # 现在 current_h 就是最后一层的输出
         last_layer_h = current_h     
-        # 将最后一层的表示投影到最终维度
         final_h = self.final_projection(last_layer_h)
         return final_h
-
