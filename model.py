@@ -133,8 +133,7 @@ class AMNTDDA(nn.Module):
                 nn.Linear(args.gt_out_dim, 1024), nn.ReLU(), nn.Dropout(0.4),
                 nn.Linear(1024, 256), nn.ReLU(), nn.Dropout(0.4),
                 nn.Linear(256, 2)
-            ).to(self.device)
-            
+            ).to(self.device)            
         self.gt_drug_perturb = None
         self.gt_disease_perturb = None
         self.hgt_input_features_perturb = None
@@ -224,4 +223,5 @@ class AMNTDDA(nn.Module):
         else:
 
              return dr_final_rep, di_final_rep, output_logits
+
 
