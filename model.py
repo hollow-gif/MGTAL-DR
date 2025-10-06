@@ -100,7 +100,6 @@ class AMNTDDA(nn.Module):
         self.protein_linear_hgt = nn.Linear(args.protein_feature_raw_dim, args.hgt_in_dim).to(self.device)      
         hgt_out_dim = args.hgt_head_dim * args.hgt_head     
         from dgl.nn.pytorch.glob import GlobalAttentionPooling
-
         self.context_dim = 64 
         num_context_heads = 4
         if self.context_dim % num_context_heads != 0:
@@ -225,3 +224,4 @@ class AMNTDDA(nn.Module):
         else:
 
              return dr_final_rep, di_final_rep, output_logits
+
