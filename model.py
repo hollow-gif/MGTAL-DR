@@ -163,8 +163,7 @@ class AMNTDDA(nn.Module):
             }
             for ntype, feat in initial_hgt_features_dict.items():
                 if ntype in base_hg.ntypes:
-                    base_hg.nodes[ntype].data['h'] = feat
-            
+                    base_hg.nodes[ntype].data['h'] = feat            
             homo_base_hg = dgl.to_homogeneous(base_hg, ndata=['h'])
             context_features = self.global_context_gnn(homo_base_hg, homo_base_hg.ndata['h']).flatten(1)
             global_context_vector = self.global_context_readout(homo_base_hg, context_features).squeeze(0)
@@ -223,5 +222,6 @@ class AMNTDDA(nn.Module):
         else:
 
              return dr_final_rep, di_final_rep, output_logits
+
 
 
