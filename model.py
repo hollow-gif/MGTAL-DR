@@ -220,8 +220,8 @@ class AMNTDDA(nn.Module):
         if return_intermediate_features:
              return dr_final_rep, di_final_rep, dr_sim, di_sim, dr_hgt, di_hgt, output_logits
         else:
-
              return dr_final_rep, di_final_rep, output_logits
+
 
 
 
