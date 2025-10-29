@@ -114,10 +114,7 @@ class AMNTDDA(nn.Module):
         self.global_context_readout = GlobalAttentionPooling(
             gate_nn=nn.Linear(self.context_dim, 1)
         ).to(device)
-        self.hgt_layer_A = SubgraphHGTLayer(args.hgt_in_dim, args.hgt_head_dim, hgt_out_dim, args.hgt_head, 2, args.dropout, self.context_dim).to(device)
-        self.hgt_layer_B = SubgraphHGTLayer(args.hgt_in_dim, args.hgt_head_dim, hgt_out_dim, args.hgt_head, 2, args.dropout, self.context_dim).to(device)
-        self.hgt_layer_C = SubgraphHGTLayer(args.hgt_in_dim, args.hgt_head_dim, hgt_out_dim, args.hgt_head, 2, args.dropout, self.context_dim).to(device)
-        self.hgt_layer_D = SubgraphHGTLayer(args.hgt_in_dim, args.hgt_head_dim, hgt_out_dim, args.hgt_head, 2, args.dropout, self.context_dim).to(device)
+        
         self.view_aggregator_drug = ViewAttention(hgt_out_dim)
         self.view_aggregator_disease = ViewAttention(hgt_out_dim)       
         if hgt_out_dim != args.gt_out_dim:
@@ -221,6 +218,7 @@ class AMNTDDA(nn.Module):
              return dr_final_rep, di_final_rep, dr_sim, di_sim, dr_hgt, di_hgt, output_logits
         else:
              return dr_final_rep, di_final_rep, output_logits
+
 
 
 
