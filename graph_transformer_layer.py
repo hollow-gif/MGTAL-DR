@@ -144,3 +144,4 @@ class GraphTransformerLayer(nn.Module):
         return '{}(in_channels={}, out_channels={}, heads={}, residual={})'.format(
             self.__class__.__name__, self.in_channels, self.out_channels, self.num_heads, self.residual)
 
+
